@@ -1,6 +1,5 @@
 package com.tonyakitori.apps.tourcompose.settings
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors

@@ -1,6 +1,5 @@
 package com.tonyakitori.apps.tourcompose
 
-import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
