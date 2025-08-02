@@ -68,21 +68,9 @@ object GuidedTourOverlaySpotlightProperties {
 internal fun OverlaySpotlight(
     modifier: Modifier = Modifier,
     isOverflow: Boolean = false,
-    isInsideScaffold: Boolean = false,
-    componentSelectedLayoutCoordinates: LayoutCoordinates,
+    componentSelectedRect: Rect,
     colors: SpotlightColors = DefaultSpotlightColors()
 ) {
-
-    if (componentSelectedLayoutCoordinates.isAttached.not()) {
-        Log.w("OverlaySpotlight", "componentSelectedLayoutCoordinates is not attached.")
-        return
-    }
-
-    val componentRectArea = if (isInsideScaffold) {
-        componentSelectedLayoutCoordinates.boundsInParent()
-    } else {
-        componentSelectedLayoutCoordinates.boundsInRoot()
-    }
 
     val backgroundColor = colors.overlayBackgroundColor
     val strokeRectColor = colors.overlayBorderColor
@@ -94,22 +82,22 @@ internal fun OverlaySpotlight(
             val spotlightPath = Path().apply {
 
                 val rectWithPadding = Rect(
-                    left = componentRectArea.left - if (isOverflow) {
+                    left = componentSelectedRect.left - if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_PADDING.dp.toPx()
                     },
-                    top = componentRectArea.top - if (isOverflow) {
+                    top = componentSelectedRect.top - if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_PADDING.dp.toPx()
                     },
-                    right = componentRectArea.right + if (isOverflow) {
+                    right = componentSelectedRect.right + if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_PADDING.dp.toPx()
                     },
-                    bottom = componentRectArea.bottom + if (isOverflow) {
+                    bottom = componentSelectedRect.bottom + if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_PADDING.dp.toPx()
@@ -117,22 +105,22 @@ internal fun OverlaySpotlight(
                 )
 
                 val rectWithPaddingForBorders = Rect(
-                    left = componentRectArea.left - if (isOverflow) {
+                    left = componentSelectedRect.left - if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_BORDER_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_BORDER_PADDING.dp.toPx()
                     },
-                    top = componentRectArea.top - if (isOverflow) {
+                    top = componentSelectedRect.top - if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_BORDER_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_BORDER_PADDING.dp.toPx()
                     },
-                    right = componentRectArea.right + if (isOverflow) {
+                    right = componentSelectedRect.right + if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_BORDER_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_BORDER_PADDING.dp.toPx()
                     },
-                    bottom = componentRectArea.bottom + if (isOverflow) {
+                    bottom = componentSelectedRect.bottom + if (isOverflow) {
                         SPOTLIGHT_OVERFLOW_RECT_BORDER_PADDING.dp.toPx()
                     } else {
                         SPOTLIGHT_RECT_BORDER_PADDING.dp.toPx()
@@ -187,7 +175,7 @@ internal fun OverlaySpotlight(
 @Preview(showSystemUi = true)
 private fun GuidedTourOverlaySpotlightPreview() {
 
-    var helloWorldLayoutCoordinates: LayoutCoordinates? by remember { mutableStateOf(null) }
+    var helloWorldLayoutCoordinates: Rect? by remember { mutableStateOf(null) }
 
     Scaffold(
         topBar = {
@@ -215,15 +203,14 @@ private fun GuidedTourOverlaySpotlightPreview() {
                         .width(210.dp)
                         .height(60.dp)
                         .padding(10.dp)
-                        .onGloballyPositioned { helloWorldLayoutCoordinates = it },
+                        .onGloballyPositioned { helloWorldLayoutCoordinates = it.boundsInRoot() },
                     text = "Hello World2"
                 )
             }
 
             helloWorldLayoutCoordinates?.let {
                 OverlaySpotlight(
-                    componentSelectedLayoutCoordinates = it,
-                    isInsideScaffold = true
+                    componentSelectedRect = it,
                 )
             }
         }

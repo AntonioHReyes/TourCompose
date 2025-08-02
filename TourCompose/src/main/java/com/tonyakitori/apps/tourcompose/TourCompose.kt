@@ -1,13 +1,16 @@
 package com.tonyakitori.apps.tourcompose
 
+import android.os.Build
 import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,17 +18,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
+import androidx.compose.ui.window.PopupProperties
 import com.tonyakitori.apps.tourcompose.TourComposeConstants.BUBBLE_OFFSET_Y_BOTTOM
 import com.tonyakitori.apps.tourcompose.TourComposeConstants.BUBBLE_OFFSET_Y_TOP
 import com.tonyakitori.apps.tourcompose.TourComposeConstants.HORIZONTAL_PADDING
@@ -48,47 +57,27 @@ internal object TourComposeConstants {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TourCompose(
-    isInsideScaffold: Boolean = false,
     tourComposeProperties: TourComposeProperties = TourComposeProperties,
-    componentSelectedLayoutCoordinates: LayoutCoordinates?,
+    componentRectArea: Rect?,
     bubbleContentSettings: BubbleContentSettings?
 ) {
-    if (componentSelectedLayoutCoordinates == null) {
-        Log.w("TourCompose", "componentSelectedLayoutCoordinates is null.")
-        return
-    }
 
-    if (componentSelectedLayoutCoordinates.isAttached.not()) {
-        Log.w("TourCompose", "componentSelectedLayoutCoordinates is not attached.")
+    if (componentRectArea == null){
+        Log.e("TourCompose", "componentRectArea is null.")
         return
     }
 
     if (bubbleContentSettings == null) {
         Log.e("TourCompose", "bubbleContentSettings is null.")
+        return
     }
 
     val density = LocalDensity.current
     var contentSize by remember { mutableStateOf(Size.Zero) }
     val screenWidth = LocalContext.current.resources.displayMetrics.widthPixels
     val screenHeight = LocalContext.current.resources.displayMetrics.heightPixels
-    val componentRectArea = if (isInsideScaffold) {
-        componentSelectedLayoutCoordinates.boundsInParent()
-    } else {
-        componentSelectedLayoutCoordinates.boundsInRoot()
-    }
     val spotlightCenterY = componentRectArea.center.y
-
-    val bubblePositionModifier = with(density) {
-        if (spotlightCenterY < screenHeight / 2) {
-            Modifier.offset(
-                y = (componentRectArea.bottom + BUBBLE_OFFSET_Y_BOTTOM.dp.toPx()).toDp()
-            )
-        } else {
-            Modifier.offset(
-                y = (componentRectArea.top - (contentSize.height + BUBBLE_OFFSET_Y_TOP.dp.toPx())).toDp()
-            )
-        }
-    }
+    val dialogContentDescription = stringResource(R.string.tour_compose_content_description)
 
     val isComponentOverflowing = with(density) {
         componentRectArea.topCenter.x <= HORIZONTAL_PADDING.toPx() ||
@@ -126,44 +115,89 @@ fun TourCompose(
         tail
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .semantics { testTagsAsResourceId = true }
-            .clickable(
-                onClick = { /* Intercept clicks */ },
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            )
-    ) {
-        OverlaySpotlight(
-            modifier = Modifier,
-            componentSelectedLayoutCoordinates = componentSelectedLayoutCoordinates,
-            isOverflow = isComponentOverflowing,
-            isInsideScaffold = isInsideScaffold,
-            colors = tourComposeProperties.spotlightColors
-        )
+    val finalComponentRect = run {
+        val safeDrawingPaddingValues = WindowInsets.safeDrawing.asPaddingValues()
+        val topPadding = with(LocalDensity.current) { safeDrawingPaddingValues.calculateTopPadding().toPx() }
 
-        bubbleContentSettings?.let {
-            DialogBubbleSkeleton(
-                modifier = Modifier
-                    .onGloballyPositioned {
-                        // update the size of the SpeechBubble when it is positioned in the screen
-                        // to calculate the position of the SpeechBubble correctly.
-                        contentSize = it.size.toSize()
-                    }
-                    .then(bubblePositionModifier)
-                    .fillMaxWidth()
-                    .padding(horizontal = HORIZONTAL_PADDING),
-                dialogBubblePosition = if (spotlightCenterY < screenHeight / 2) {
-                    DialogBubblePosition.BOTTOM
-                } else {
-                    DialogBubblePosition.TOP
-                },
-                dialogTailOffsetX = dialogTailOffset,
-                dialogBubbleColors = tourComposeProperties.dialogBubbleColors
-            ) {
-                it.DrawContent(Modifier)
+        if (topPadding > 0) {
+            Rect(
+                left = componentRectArea.left,
+                top = componentRectArea.top.minus(topPadding),
+                right = componentRectArea.right,
+                bottom = componentRectArea.bottom.minus(topPadding)
+            )
+        } else {
+            componentRectArea
+        }
+    }
+
+    val bubblePositionModifier = with(density) {
+        if (spotlightCenterY < screenHeight / 2) {
+            Modifier.offset(
+                y = (finalComponentRect.bottom + BUBBLE_OFFSET_Y_BOTTOM.dp.toPx()).toDp()
+            )
+        } else {
+            Modifier.offset(
+                y = (finalComponentRect.top - (contentSize.height + BUBBLE_OFFSET_Y_TOP.dp.toPx())).toDp()
+            )
+        }
+    }
+
+    Popup(
+        properties = PopupProperties(
+            focusable = true,
+        ),
+        popupPositionProvider = object : PopupPositionProvider {
+            override fun calculatePosition(
+                anchorBounds: IntRect,
+                windowSize: IntSize,
+                layoutDirection: androidx.compose.ui.unit.LayoutDirection,
+                popupContentSize: IntSize
+            ): IntOffset {
+                return IntOffset(
+                    x = 0,
+                    y = screenHeight - popupContentSize.height
+                )
+            }
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .semantics {
+                    testTagsAsResourceId = true
+                    contentDescription = dialogContentDescription
+                }
+                .focusable(true)
+        ) {
+            OverlaySpotlight(
+                modifier = Modifier,
+                componentSelectedRect = finalComponentRect,
+                isOverflow = isComponentOverflowing,
+                colors = tourComposeProperties.spotlightColors
+            )
+
+            bubbleContentSettings.let {
+                DialogBubbleSkeleton(
+                    modifier = Modifier
+                        .onGloballyPositioned {
+                            // update the size of the SpeechBubble when it is positioned in the screen
+                            // to calculate the position of the SpeechBubble correctly.
+                            contentSize = it.size.toSize()
+                        }
+                        .then(bubblePositionModifier)
+                        .fillMaxWidth()
+                        .padding(horizontal = HORIZONTAL_PADDING),
+                    dialogBubblePosition = if (spotlightCenterY < screenHeight / 2) {
+                        DialogBubblePosition.BOTTOM
+                    } else {
+                        DialogBubblePosition.TOP
+                    },
+                    dialogTailOffsetX = dialogTailOffset,
+                    dialogBubbleColors = tourComposeProperties.dialogBubbleColors
+                ) {
+                    it.DrawContent(Modifier)
+                }
             }
         }
     }

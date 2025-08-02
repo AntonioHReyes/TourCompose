@@ -40,9 +40,6 @@ import com.tonyakitori.apps.tourcompose.TourCompose
 import com.tonyakitori.apps.tourcompose.controller.LocalTourController
 import com.tonyakitori.apps.tourcompose.controller.TourComposeScope
 import com.tonyakitori.apps.tourcompose.controller.TourComposeWrapper
-import com.tonyakitori.apps.tourcompose.settings.TourComposeProperties
-import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors
-import com.tonyakitori.apps.tourcompose.settings.colors.DefaultSpotlightColors
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.COMPLETE_TOUR_COMPOSE_FLOW
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.TITLE_AND_IMAGE_FLOW
 import com.tonyakitori.apps.tourcomposedemo.ui.theme.TourComposeTheme
@@ -51,7 +48,7 @@ import com.tonyakitori.apps.tourcomposedemo.ui.theme.TourComposeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             var enableDarkTheme by remember { mutableStateOf(false) }
             TourComposeTheme(
@@ -103,7 +100,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     TourCompose(
-                        componentSelectedLayoutCoordinates = step?.componentLayoutCoordinates,
+                        componentRectArea = step?.componentRect,
                         bubbleContentSettings = step?.bubbleContentSettings,
                         /*tourComposeProperties = TourComposeProperties.copy(
                             spotlightColors = DefaultSpotlightColors().copy(

@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import com.tonyakitori.apps.tourcompose.settings.bubbleContent.BubbleContentSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +21,7 @@ import java.util.UUID
 data class TourComposeStep(
     val id: String = UUID.randomUUID().toString(),
     val bubbleContentSettings: BubbleContentSettings,
-    var componentLayoutCoordinates: LayoutCoordinates? = null,
+    var componentRect: Rect? = null,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -94,12 +94,12 @@ abstract class TourComposeController {
         flows.remove(flowId)
     }
 
-    fun addLayoutCoordinates(
+    fun addLayoutRect(
         flowId: String,
         step: Int,
-        layoutCoordinates: LayoutCoordinates
+        rect: Rect
     ) {
-        flows[flowId]?.get(step)?.componentLayoutCoordinates = layoutCoordinates
+        flows[flowId]?.get(step)?.componentRect = rect
     }
 }
 
@@ -118,7 +118,7 @@ class TourComposeScopeImpl(private val tutorialController: TourComposeController
     @Stable
     override fun Modifier.tourStepIndex(flowId: String, step: Int) =
         this.onGloballyPositioned { layoutCoordinates ->
-            tutorialController.addLayoutCoordinates(flowId, step, layoutCoordinates)
+            tutorialController.addLayoutRect(flowId, step, layoutCoordinates.boundsInRoot())
         }
 }
 
