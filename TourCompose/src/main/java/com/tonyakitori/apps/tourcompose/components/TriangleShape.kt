@@ -13,8 +13,8 @@ import com.tonyakitori.apps.tourcompose.components.TriangleShapeProperties.TRIAN
 import com.tonyakitori.apps.tourcompose.components.TriangleShapeProperties.TRIANGLE_ARC_RADIUS
 import com.tonyakitori.apps.tourcompose.components.TriangleShapeProperties.TRIANGLE_CENTER_AXIS_BASE_WIDTH
 import com.tonyakitori.apps.tourcompose.components.TriangleShapeProperties.TRIANGLE_HEIGHT
-import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors
 import com.tonyakitori.apps.tourcompose.settings.colors.DialogBubbleColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultDialogBubbleColors
 
 enum class TriangleDirection {
     UP, DOWN
@@ -38,7 +38,7 @@ internal object TriangleShapeProperties {
 fun TriangleShape(
     modifier: Modifier = Modifier,
     direction: TriangleDirection = TriangleDirection.UP,
-    triangleColors: DialogBubbleColors = DefaultDialogBubbleColors()
+    triangleColors: DialogBubbleColors = defaultDialogBubbleColors()
 ) {
     Canvas(
         modifier = modifier

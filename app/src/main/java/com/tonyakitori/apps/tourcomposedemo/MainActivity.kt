@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -102,11 +101,11 @@ class MainActivity : ComponentActivity() {
                     TourCompose(
                         componentRectArea = step?.componentRect,
                         bubbleContentSettings = step?.bubbleContentSettings,
-                        /*tourComposeProperties = TourComposeProperties.copy(
-                            spotlightColors = DefaultSpotlightColors().copy(
+                        /*tourComposeProperties = TourComposeProperties.getDefaultInstance().copy(
+                            spotlightColors = DefaultSpotlightColors.getDefaultInstance().copy(
                                 overlayBackgroundColor = MaterialTheme.colorScheme.inversePrimary.copy(alpha = 0.5f),
                             ),
-                            dialogBubbleColors = DefaultDialogBubbleColors(
+                            dialogBubbleColors = DefaultDialogBubbleColors.getDefaultInstance().copy(
                                 backgroundColor = MaterialTheme.colorScheme.errorContainer
                             )
                         )*/

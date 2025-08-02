@@ -1,5 +1,7 @@
 package com.tonyakitori.apps.tourcompose.settings.colors
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
@@ -9,16 +11,21 @@ interface SpotlightColors {
 }
 
 @Immutable
-class DefaultSpotlightColors(
-    override val overlayBackgroundColor: Color = Color.Gray.copy(alpha = 0.5f),
-    override val overlayBorderColor: Color = Color.Green
+data class DefaultSpotlightColors(
+    override val overlayBackgroundColor: Color,
+    override val overlayBorderColor: Color
 ) : SpotlightColors {
-
-    fun copy(
-        overlayBackgroundColor: Color = this.overlayBackgroundColor,
-        overlayBorderColor: Color = this.overlayBorderColor
-    ): SpotlightColors = DefaultSpotlightColors(
-        overlayBackgroundColor = overlayBackgroundColor,
-        overlayBorderColor = overlayBorderColor
-    )
+    companion object {
+        @Composable
+        fun getDefaultInstance(): DefaultSpotlightColors = DefaultSpotlightColors(
+            overlayBackgroundColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.8f),
+            overlayBorderColor = MaterialTheme.colorScheme.primary
+        )
+    }
 }
+
+@Composable
+fun defaultSpotlightColors(): SpotlightColors = DefaultSpotlightColors(
+    overlayBackgroundColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.8f),
+    overlayBorderColor = MaterialTheme.colorScheme.primary
+)

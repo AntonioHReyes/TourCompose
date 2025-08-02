@@ -1,5 +1,7 @@
 package com.tonyakitori.apps.tourcompose.settings.colors
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
@@ -8,13 +10,18 @@ interface DialogBubbleColors {
 }
 
 @Immutable
-class DefaultDialogBubbleColors(
-    override val backgroundColor: Color = Color.White
+data class DefaultDialogBubbleColors(
+    override val backgroundColor: Color
 ) : DialogBubbleColors {
-
-    fun copy(
-        backgroundColor: Color = this.backgroundColor
-    ): DialogBubbleColors = DefaultDialogBubbleColors(
-        backgroundColor = backgroundColor
-    )
+    companion object {
+        @Composable
+        fun getDefaultInstance(): DefaultDialogBubbleColors = DefaultDialogBubbleColors(
+            backgroundColor = MaterialTheme.colorScheme.surface
+        )
+    }
 }
+
+@Composable
+fun defaultDialogBubbleColors(): DialogBubbleColors = DefaultDialogBubbleColors(
+    backgroundColor = MaterialTheme.colorScheme.surface
+)

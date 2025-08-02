@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tonyakitori.apps.tourcompose.R
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleSkeleton
+import com.tonyakitori.apps.tourcompose.settings.colors.BubbleContentColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultBubbleContentColors
 
 @Stable
 interface BubbleContentBasicSettingsInterface : BubbleContentSettings {
@@ -32,6 +34,7 @@ interface BubbleContentBasicSettingsInterface : BubbleContentSettings {
     //actions
     val onPrimaryClick: () -> Unit
     val onSecondaryClick: () -> Unit
+    val colors: BubbleContentColors?
 }
 
 @Immutable
@@ -43,7 +46,8 @@ class BubbleContentBasicSettings(
     override val secondaryButtonText: String?,
     override val onDismiss: () -> Unit,
     override val onPrimaryClick: () -> Unit,
-    override val onSecondaryClick: () -> Unit
+    override val onSecondaryClick: () -> Unit,
+    override val colors: BubbleContentColors? = null
 ) : BubbleContentBasicSettingsInterface {
 
     @Composable
@@ -58,7 +62,8 @@ class BubbleContentBasicSettings(
             secondaryButtonText = secondaryButtonText,
             onDismiss = onDismiss,
             onPrimaryClick = onPrimaryClick,
-            onSecondaryClick = onSecondaryClick
+            onSecondaryClick = onSecondaryClick,
+            colors = colors ?: defaultBubbleContentColors()
         )
     }
 
@@ -73,7 +78,8 @@ fun bubbleContentBasicSettings(
     secondaryButtonText: String? = null,
     onDismiss: () -> Unit = {},
     onPrimaryClick: () -> Unit = {},
-    onSecondaryClick: () -> Unit = {}
+    onSecondaryClick: () -> Unit = {},
+    colors: BubbleContentColors? = null
 ): BubbleContentSettings = BubbleContentBasicSettings(
     modifier = modifier,
     title = title,
@@ -82,7 +88,8 @@ fun bubbleContentBasicSettings(
     primaryButtonText = primaryButtonText,
     secondaryButtonText = secondaryButtonText,
     onPrimaryClick = onPrimaryClick,
-    onSecondaryClick = onSecondaryClick
+    onSecondaryClick = onSecondaryClick,
+    colors = colors
 )
 
 @Composable
@@ -94,7 +101,8 @@ private fun BubbleContentBasicSettingsComponent(
     secondaryButtonText: String? = null,
     onDismiss: () -> Unit,
     onPrimaryClick: () -> Unit,
-    onSecondaryClick: () -> Unit
+    onSecondaryClick: () -> Unit,
+    colors: BubbleContentColors
 ) {
     Column(
         modifier = modifier
@@ -111,14 +119,14 @@ private fun BubbleContentBasicSettingsComponent(
             ) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = colors.titleTextColor,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     modifier = Modifier
                         .padding(top = 4.dp),
                     text = description,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = colors.descriptionTextColor,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -128,13 +136,14 @@ private fun BubbleContentBasicSettingsComponent(
                     modifier = Modifier.size(20.dp),
                     painter = painterResource(id = R.drawable.ic_tour_compose_close),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = colors.iconTintColor,
                 )
             }
         }
 
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = 12.dp)
+            modifier = Modifier.padding(vertical = 12.dp),
+            color = colors.dividerColor
         )
 
         Row(
@@ -172,7 +181,8 @@ private fun BubbleContentBasicSettingsPreview() {
             primaryButtonText = "Cancelar",
             secondaryButtonText = null,
             onPrimaryClick = {},
-            onSecondaryClick = {}
+            onSecondaryClick = {},
+            colors = defaultBubbleContentColors()
         )
     }
 }

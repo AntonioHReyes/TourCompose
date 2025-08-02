@@ -56,7 +56,7 @@ internal object TourComposeConstants {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TourCompose(
-    tourComposeProperties: TourComposeProperties = TourComposeProperties,
+    tourComposeProperties: TourComposeProperties = TourComposeProperties.getDefaultInstance(),
     componentRectArea: Rect?,
     bubbleContentSettings: BubbleContentSettings?
 ) {

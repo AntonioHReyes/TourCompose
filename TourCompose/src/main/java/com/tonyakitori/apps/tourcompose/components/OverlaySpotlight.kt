@@ -36,8 +36,8 @@ import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightPro
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_RECT_BORDER_WIDTH
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_RECT_CORNER_RADIUS
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_RECT_PADDING
-import com.tonyakitori.apps.tourcompose.settings.colors.DefaultSpotlightColors
 import com.tonyakitori.apps.tourcompose.settings.colors.SpotlightColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultSpotlightColors
 
 object GuidedTourOverlaySpotlightProperties {
     const val ALPHA = 0.78f
@@ -66,7 +66,7 @@ internal fun OverlaySpotlight(
     modifier: Modifier = Modifier,
     isOverflow: Boolean = false,
     componentSelectedRect: Rect,
-    colors: SpotlightColors = DefaultSpotlightColors()
+    colors: SpotlightColors = defaultSpotlightColors()
 ) {
 
     val backgroundColor = colors.overlayBackgroundColor

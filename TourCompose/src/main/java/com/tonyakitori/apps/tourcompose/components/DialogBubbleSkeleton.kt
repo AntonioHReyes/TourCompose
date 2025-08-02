@@ -20,8 +20,8 @@ import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE_WRAPPER_Z_INDEX
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.DIALOG_TAIL_OFFSET_X
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.TRIANGLE_OFFSET_Y
-import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors
 import com.tonyakitori.apps.tourcompose.settings.colors.DialogBubbleColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultDialogBubbleColors
 
 enum class DialogBubblePosition {
     TOP, BOTTOM
@@ -52,7 +52,7 @@ fun DialogBubbleSkeleton(
     modifier: Modifier = Modifier,
     dialogBubblePosition: DialogBubblePosition = DialogBubblePosition.BOTTOM,
     dialogTailOffsetX: Float = DIALOG_TAIL_OFFSET_X,
-    dialogBubbleColors: DialogBubbleColors = DefaultDialogBubbleColors(),
+    dialogBubbleColors: DialogBubbleColors = defaultDialogBubbleColors(),
     content: @Composable () -> Unit
 ) {
 
