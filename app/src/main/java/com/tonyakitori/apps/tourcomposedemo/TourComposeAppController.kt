@@ -5,47 +5,19 @@ import com.tonyakitori.apps.tourcompose.controller.TourComposeStep
 import com.tonyakitori.apps.tourcompose.settings.bubbleContent.bubbleContentBasicSettings
 import java.util.UUID
 
-class TourComposeAppController() : TourComposeController() {
+class TourComposeAppController(
+    private val useCustomBubbleContent: Boolean = false
+) : TourComposeController() {
 
     init {
 
         addTour(
             flowId = TITLE_AND_IMAGE_FLOW,
-            steps = listOf(
-                TourComposeStep(
-                    id = TitleAndImageSteps.TITLE.id.toString(),
-                    bubbleContentSettings = bubbleContentBasicSettings(
-                        title = "Este es el titulo",
-                        description = "En el titulo esta el detalle de todo",
-                        primaryButtonText = "Siguiente",
-                        secondaryButtonText = null,
-                        onPrimaryClick = {
-                            nextStep()
-                        },
-                        onDismiss = {
-                            stopTour()
-                        }
-                    )
-                ),
-                TourComposeStep(
-                    id = TitleAndImageSteps.IMAGE.id.toString(),
-                    bubbleContentSettings = bubbleContentBasicSettings(
-                        title = "Una imagen",
-                        description = "Esta es una imagen que compone la pantalla",
-                        primaryButtonText = "Finalizar",
-                        secondaryButtonText = "Atras",
-                        onPrimaryClick = {
-                            stopTour()
-                        },
-                        onSecondaryClick = {
-                            previousStep()
-                        },
-                        onDismiss = {
-                            stopTour()
-                        }
-                    )
-                )
-            )
+            steps = if (useCustomBubbleContent) {
+                createCustomTitleAndImageSteps()
+            } else {
+                createBasicTitleAndImageSteps()
+            }
         )
 
         addTour(
@@ -125,6 +97,83 @@ class TourComposeAppController() : TourComposeController() {
         )
 
     }
+
+    private fun createBasicTitleAndImageSteps(): List<TourComposeStep> = listOf(
+        TourComposeStep(
+            id = TitleAndImageSteps.TITLE.id.toString(),
+            bubbleContentSettings = bubbleContentBasicSettings(
+                title = "Este es el titulo",
+                description = "En el titulo esta el detalle de todo",
+                primaryButtonText = "Siguiente",
+                secondaryButtonText = null,
+                onPrimaryClick = {
+                    nextStep()
+                },
+                onDismiss = {
+                    stopTour()
+                }
+            )
+        ),
+        TourComposeStep(
+            id = TitleAndImageSteps.IMAGE.id.toString(),
+            bubbleContentSettings = bubbleContentBasicSettings(
+                title = "Una imagen",
+                description = "Esta es una imagen que compone la pantalla",
+                primaryButtonText = "Finalizar",
+                secondaryButtonText = "Atras",
+                onPrimaryClick = {
+                    stopTour()
+                },
+                onSecondaryClick = {
+                    previousStep()
+                },
+                onDismiss = {
+                    stopTour()
+                }
+            )
+        )
+    )
+
+    private fun createCustomTitleAndImageSteps(): List<TourComposeStep> = listOf(
+        TourComposeStep(
+            id = TitleAndImageSteps.TITLE.id.toString(),
+            bubbleContentSettings = customBubbleContent(
+                title = "🎯 Tutorial Interactivo",
+                description = "Bienvenido al tour personalizado con progreso visual y rating interactivo",
+                currentStep = 1,
+                totalSteps = 2,
+                rating = 4.8f,
+                onNextClick = {
+                    nextStep()
+                },
+                onPreviousClick = {
+                    // No hay paso anterior
+                },
+                onDismiss = {
+                    stopTour()
+                }
+            )
+        ),
+        TourComposeStep(
+            id = TitleAndImageSteps.IMAGE.id.toString(),
+            bubbleContentSettings = customBubbleContent(
+                title = "🖼️ Elementos Visuales",
+                description = "Esta imagen es un componente clave de nuestra interfaz, diseñada para captar la atención del usuario",
+                currentStep = 2,
+                totalSteps = 2,
+                rating = 4.9f,
+                onNextClick = {
+                    stopTour()
+                },
+                onPreviousClick = {
+                    previousStep()
+                },
+                onDismiss = {
+                    stopTour()
+                }
+            )
+        )
+    )
 
     companion object {
         const val TITLE_AND_IMAGE_FLOW = "title_and_image"

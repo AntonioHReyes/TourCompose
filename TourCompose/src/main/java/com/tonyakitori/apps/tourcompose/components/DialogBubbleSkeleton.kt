@@ -14,8 +14,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE_PADDING_BOTTOM
-import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE_PADDING_TOP
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE_RADIUS
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.BUBBLE_WRAPPER_Z_INDEX
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleProperties.DIALOG_TAIL_OFFSET_X
@@ -32,9 +30,6 @@ internal object DialogBubbleProperties {
     const val BUBBLE_WRAPPER_Z_INDEX = 10f
 
     val BUBBLE_RADIUS = 16.dp
-    val BUBBLE_PADDING_TOP = 4.dp
-    val BUBBLE_PADDING_BOTTOM = 8.dp
-
     val TRIANGLE_OFFSET_Y = 0.5.dp
 }
 
@@ -76,10 +71,6 @@ fun DialogBubbleSkeleton(
                     shape = RoundedCornerShape(BUBBLE_RADIUS)
                 )
                 .fillMaxWidth()
-                .padding(
-                    top = BUBBLE_PADDING_TOP,
-                    bottom = BUBBLE_PADDING_BOTTOM
-                )
                 .zIndex(BUBBLE_WRAPPER_Z_INDEX)
         ) {
             content()

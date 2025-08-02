@@ -39,6 +39,10 @@ import com.tonyakitori.apps.tourcompose.TourCompose
 import com.tonyakitori.apps.tourcompose.controller.LocalTourController
 import com.tonyakitori.apps.tourcompose.controller.TourComposeScope
 import com.tonyakitori.apps.tourcompose.controller.TourComposeWrapper
+import com.tonyakitori.apps.tourcompose.settings.TourComposeProperties
+import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors
+import com.tonyakitori.apps.tourcompose.settings.colors.DefaultSpotlightColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultDialogBubbleColors
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.COMPLETE_TOUR_COMPOSE_FLOW
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.TITLE_AND_IMAGE_FLOW
 import com.tonyakitori.apps.tourcomposedemo.ui.theme.TourComposeTheme
@@ -50,12 +54,15 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             var enableDarkTheme by remember { mutableStateOf(false) }
+            var enableCustomColors by remember { mutableStateOf(false) }
+            var useCustomBubbleContent by remember { mutableStateOf(false) }
+
             TourComposeTheme(
                 darkTheme = enableDarkTheme
             ) {
                 TourComposeWrapper(
-                    tourController = remember {
-                        TourComposeAppController()
+                    tourController = remember(useCustomBubbleContent) {
+                        TourComposeAppController(useCustomBubbleContent)
                     },
                 ) {
 
@@ -72,7 +79,10 @@ class MainActivity : ComponentActivity() {
                                 actions = {
                                     IconButton(
                                         modifier = Modifier
-                                            .tourStepIndex(COMPLETE_TOUR_COMPOSE_FLOW, CompleteTourComposeSteps.CHANGE_THEME.stepIndex),
+                                            .tourStepIndex(
+                                                COMPLETE_TOUR_COMPOSE_FLOW,
+                                                CompleteTourComposeSteps.CHANGE_THEME.stepIndex
+                                            ),
                                         content = {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_bg_dark_mode),
@@ -88,6 +98,10 @@ class MainActivity : ComponentActivity() {
                         Box(modifier = Modifier.padding(innerPadding)) {
                             MainScreen(
                                 modifier = Modifier,
+                                enableCustomColors = enableCustomColors,
+                                onCustomColorsChange = { enableCustomColors = it },
+                                useCustomBubbleContent = useCustomBubbleContent,
+                                onCustomBubbleContentChange = { useCustomBubbleContent = it },
                                 onStartTour = {
                                     tourController.startTour(TITLE_AND_IMAGE_FLOW)
                                 },
@@ -101,14 +115,27 @@ class MainActivity : ComponentActivity() {
                     TourCompose(
                         componentRectArea = step?.componentRect,
                         bubbleContentSettings = step?.bubbleContentSettings,
-                        /*tourComposeProperties = TourComposeProperties.getDefaultInstance().copy(
-                            spotlightColors = DefaultSpotlightColors.getDefaultInstance().copy(
-                                overlayBackgroundColor = MaterialTheme.colorScheme.inversePrimary.copy(alpha = 0.5f),
-                            ),
-                            dialogBubbleColors = DefaultDialogBubbleColors.getDefaultInstance().copy(
-                                backgroundColor = MaterialTheme.colorScheme.errorContainer
+                        tourComposeProperties = if (enableCustomColors) {
+                            TourComposeProperties.getDefaultInstance().copy(
+                                spotlightColors = DefaultSpotlightColors(
+                                    overlayBackgroundColor = MaterialTheme.colorScheme.inversePrimary.copy(
+                                        alpha = 0.7f
+                                    ),
+                                    overlayBorderColor = MaterialTheme.colorScheme.error
+                                ),
+                                dialogBubbleColors = DefaultDialogBubbleColors(
+                                    backgroundColor = MaterialTheme.colorScheme.errorContainer
+                                )
                             )
-                        )*/
+                        } else {
+                            TourComposeProperties.getDefaultInstance().copy(
+                                dialogBubbleColors = if (useCustomBubbleContent) {
+                                    DefaultDialogBubbleColors(
+                                        backgroundColor = MaterialTheme.colorScheme.primaryContainer
+                                    )
+                                } else defaultDialogBubbleColors()
+                            )
+                        }
                     )
                 }
             }
@@ -119,6 +146,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TourComposeScope.MainScreen(
     modifier: Modifier = Modifier,
+    enableCustomColors: Boolean = false,
+    onCustomColorsChange: (Boolean) -> Unit = {},
+    useCustomBubbleContent: Boolean = false,
+    onCustomBubbleContentChange: (Boolean) -> Unit = {},
     onStartTour: () -> Unit = {},
     onStartCompleteTour: () -> Unit = {}
 ) {
@@ -164,22 +195,56 @@ fun TourComposeScope.MainScreen(
                     )
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            // Demo controls
+            Column(
+                modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Demo Switch",
+                    text = "Demo Controls",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Switch(
-                    modifier = Modifier
-                        .tourStepIndex(COMPLETE_TOUR_COMPOSE_FLOW, CompleteTourComposeSteps.A_SWITCH.stepIndex),
-                    checked = true,
-                    onCheckedChange = {}
-                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Custom Colors")
+                    Switch(
+                        checked = enableCustomColors,
+                        onCheckedChange = onCustomColorsChange
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Custom Bubble Content")
+                    Switch(
+                        checked = useCustomBubbleContent,
+                        onCheckedChange = onCustomBubbleContentChange
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Demo Switch")
+                    Switch(
+                        modifier = Modifier
+                            .tourStepIndex(
+                                COMPLETE_TOUR_COMPOSE_FLOW,
+                                CompleteTourComposeSteps.A_SWITCH.stepIndex
+                            ),
+                        checked = true,
+                        onCheckedChange = {}
+                    )
+                }
             }
 
         }
@@ -220,7 +285,7 @@ private fun MainScreenPreview() {
         Surface {
             TourComposeWrapper(
                 tourController = TourComposeAppController(),
-            ){
+            ) {
                 MainScreen()
             }
         }
@@ -234,7 +299,7 @@ private fun MainScreenDarkPreview() {
         Surface {
             TourComposeWrapper(
                 tourController = TourComposeAppController(),
-            ){
+            ) {
                 MainScreen()
             }
         }
