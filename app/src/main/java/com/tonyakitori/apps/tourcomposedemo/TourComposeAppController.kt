@@ -3,10 +3,12 @@ package com.tonyakitori.apps.tourcomposedemo
 import com.tonyakitori.apps.tourcompose.controller.TourComposeController
 import com.tonyakitori.apps.tourcompose.controller.TourComposeStep
 import com.tonyakitori.apps.tourcompose.settings.bubbleContent.bubbleContentBasicSettings
+import com.tonyakitori.apps.tourcompose.settings.colors.BubbleContentColors
 import java.util.UUID
 
 class TourComposeAppController(
-    private val useCustomBubbleContent: Boolean = false
+    private val useCustomBubbleContent: Boolean = false,
+    private val bubbleContentColors: BubbleContentColors? = null
 ) : TourComposeController() {
 
     init {
@@ -106,6 +108,7 @@ class TourComposeAppController(
                 description = "En el titulo esta el detalle de todo",
                 primaryButtonText = "Siguiente",
                 secondaryButtonText = null,
+                colors = bubbleContentColors,
                 onPrimaryClick = {
                     nextStep()
                 },
@@ -121,6 +124,7 @@ class TourComposeAppController(
                 description = "Esta es una imagen que compone la pantalla",
                 primaryButtonText = "Finalizar",
                 secondaryButtonText = "Atras",
+                colors = bubbleContentColors,
                 onPrimaryClick = {
                     stopTour()
                 },

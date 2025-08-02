@@ -42,6 +42,7 @@ import com.tonyakitori.apps.tourcompose.controller.TourComposeWrapper
 import com.tonyakitori.apps.tourcompose.settings.TourComposeProperties
 import com.tonyakitori.apps.tourcompose.settings.colors.DefaultDialogBubbleColors
 import com.tonyakitori.apps.tourcompose.settings.colors.DefaultSpotlightColors
+import com.tonyakitori.apps.tourcompose.settings.colors.defaultBubbleContentColors
 import com.tonyakitori.apps.tourcompose.settings.colors.defaultDialogBubbleColors
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.COMPLETE_TOUR_COMPOSE_FLOW
 import com.tonyakitori.apps.tourcomposedemo.TourComposeAppController.Companion.TITLE_AND_IMAGE_FLOW
@@ -57,12 +58,19 @@ class MainActivity : ComponentActivity() {
             var enableCustomColors by remember { mutableStateOf(false) }
             var useCustomBubbleContent by remember { mutableStateOf(false) }
 
+            val contentBubbleColors = defaultBubbleContentColors().copy(
+                titleTextColor = MaterialTheme.colorScheme.error
+            )
+
             TourComposeTheme(
                 darkTheme = enableDarkTheme
             ) {
                 TourComposeWrapper(
-                    tourController = remember(useCustomBubbleContent) {
-                        TourComposeAppController(useCustomBubbleContent)
+                    tourController = remember(useCustomBubbleContent, enableCustomColors) {
+                        TourComposeAppController(
+                            useCustomBubbleContent,
+                            if (enableCustomColors) contentBubbleColors else null
+                        )
                     },
                 ) {
 

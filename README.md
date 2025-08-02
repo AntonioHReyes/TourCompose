@@ -4,7 +4,7 @@ A powerful and highly customizable tour guide library for Android Compose applic
 engaging onboarding experiences with beautiful overlays, smart positioning, and flexible
 customization options.
 
-[![](https://jitpack.io/v/tonyakitori/TourCompose.svg)](https://jitpack.io/#tonyakitori/TourCompose)
+[![](https://jitpack.io/v/AntonioHReyes/TourCompose.svg)](https://jitpack.io/#AntonioHReyes/TourCompose)
 [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -59,7 +59,7 @@ Add the dependency to your app's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("com.github.tonyakitori:TourCompose:1.0.0")
+    implementation("com.github.tonyakitori:TourCompose:<version>")
 }
 ```
 
@@ -591,16 +591,6 @@ val tourController = remember { MyTourController() }
 val dynamicController = remember(userType, featureFlags) {
     createDynamicTourController(userType, featureFlags)
 }
-
-// Optimize step creation for large tours
-class OptimizedTourController : TourComposeController() {
-    private val stepCache = mutableMapOf<String, List<TourComposeStep>>()
-
-    fun addCachedTour(flowId: String, stepFactory: () -> List<TourComposeStep>) {
-        val steps = stepCache.getOrPut(flowId) { stepFactory() }
-        addTour(flowId, steps)
-    }
-}
 ```
 
 ### Testing Tours
@@ -797,7 +787,7 @@ fun Modifier.tourStepIndex(flowId: String, stepIndex: Int): Modifier
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions!
 
 ### Development Setup
 
@@ -837,8 +827,7 @@ SOFTWARE.
 ## 💬 Support
 
 - 📧 Email: develop@tonyakitori.com
-- 🐛 Issues: [GitHub Issues](https://github.com/tonyakitori/TourCompose/issues)
-- 💡 Feature Requests: [GitHub Discussions](https://github.com/tonyakitori/TourCompose/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/AntonioHReyes/TourCompose/issues)
 
 ## 🙏 Acknowledgments
 
@@ -848,4 +837,4 @@ SOFTWARE.
 
 ---
 
-**Made with ❤️ by [Antonio Huerta](https://github.com/tonyakitori)**
+**Made with ❤️ by [Antonio Huerta](https://github.com/AntonioHReyes)**

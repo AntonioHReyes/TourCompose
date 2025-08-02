@@ -34,7 +34,7 @@ class DefaultBubbleContentColors(
 }
 
 @Composable
-fun defaultBubbleContentColors(): BubbleContentColors = DefaultBubbleContentColors(
+fun defaultBubbleContentColors(): DefaultBubbleContentColors = DefaultBubbleContentColors(
     titleTextColor = MaterialTheme.colorScheme.onSurface,
     descriptionTextColor = MaterialTheme.colorScheme.onSurface,
     iconTintColor = MaterialTheme.colorScheme.onSurface,
