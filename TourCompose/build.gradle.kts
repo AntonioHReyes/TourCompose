@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -12,6 +13,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        aarMetadata {
+            minCompileSdk = 34
+        }
     }
 
     buildTypes {
@@ -61,4 +66,45 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+afterEvaluate {
+    configure<PublishingExtension> {
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "com.github.tonyakitori"
+                artifactId = "tourcompose"
+                version = "1.0.0"
+
+                from(components["release"])
+
+                pom {
+                    name.set("TourCompose")
+                    description.set("A powerful and customizable tour guide library for Android Compose applications")
+                    url.set("https://github.com/tonyakitori/TourCompose")
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("tonyakitori")
+                            name.set("Antonio Huerta")
+                            email.set("develop@tonyakitori.com")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:github.com/tonyakitori/TourCompose.git")
+                        developerConnection.set("scm:git:ssh://github.com/tonyakitori/TourCompose.git")
+                        url.set("https://github.com/tonyakitori/TourCompose")
+                    }
+                }
+            }
+        }
+    }
 }
