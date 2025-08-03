@@ -1,4 +1,4 @@
-package com.tonyakitori.apps.tourcomposedemo
+package com.tonyakitori.apps.tourcomposedemo.tabs.custom
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

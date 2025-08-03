@@ -68,4 +68,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(project(":TourCompose"))
+    implementation(project(":TourCompose-Material3"))
 }

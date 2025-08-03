@@ -32,13 +32,13 @@ internal object TriangleShapeProperties {
  *
  * @param modifier Modifier to be applied to the triangle.
  * @param direction Direction of the triangle pointer.
- * @param color Color of the triangle.
+ * @param triangleColors Colors of the triangle.
  */
 @Composable
 fun TriangleShape(
     modifier: Modifier = Modifier,
     direction: TriangleDirection = TriangleDirection.UP,
-    triangleColors: DialogBubbleColors = defaultDialogBubbleColors()
+    triangleColors: DialogBubbleColors
 ) {
     Canvas(
         modifier = modifier
@@ -101,7 +101,8 @@ fun TriangleShape(
 internal fun TriangleShapeUpPreview() {
     TriangleShape(
         modifier = Modifier
-            .width(30.dp)
+            .width(30.dp),
+        triangleColors = defaultDialogBubbleColors()
     )
 }
 
@@ -111,6 +112,7 @@ internal fun TriangleShapeDownPreview() {
     TriangleShape(
         modifier = Modifier
             .width(30.dp),
-        direction = TriangleDirection.DOWN
+        direction = TriangleDirection.DOWN,
+        triangleColors = defaultDialogBubbleColors()
     )
 }

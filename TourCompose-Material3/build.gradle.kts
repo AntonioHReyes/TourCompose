@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tonyakitori.apps.tourcompose"
+    namespace = "com.tonyakitori.apps.tourcompose.material3"
     compileSdk = 34
 
     defaultConfig {
@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+    // Dependencia al módulo base
+    implementation(project(":TourCompose"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -58,6 +60,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.foundation)
+
+    // Material3 específico para este módulo
+    implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,14 +78,14 @@ afterEvaluate {
         publications {
             register<MavenPublication>("release") {
                 groupId = "com.github.tonyakitori"
-                artifactId = "tourcompose"
+                artifactId = "tourcompose-material3"
                 version = "2.0.0"
 
                 from(components["release"])
 
                 pom {
-                    name.set("TourCompose")
-                    description.set("Design system agnostic tour guide library for Android Compose applications")
+                    name.set("TourCompose Material3")
+                    description.set("Material3 wrapper for TourCompose library")
                     url.set("https://github.com/tonyakitori/TourCompose")
 
                     licenses {

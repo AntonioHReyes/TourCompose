@@ -4,6 +4,11 @@ A powerful and highly customizable tour guide library for Android Compose applic
 engaging onboarding experiences with beautiful overlays, smart positioning, and flexible
 customization options.
 
+**Now available in two flavors:**
+
+- 🎨 **TourCompose** - Design system agnostic base library
+- 🌈 **TourCompose-Material3** - Automatic Material3 theme integration
+
 [![](https://jitpack.io/v/AntonioHReyes/TourCompose.svg)](https://jitpack.io/#AntonioHReyes/TourCompose)
 [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -53,13 +58,30 @@ dependencyResolutionManagement {
 }
 ```
 
-### Step 2: Add dependency
+### Step 2: Choose your implementation
 
-Add the dependency to your app's `build.gradle.kts`:
+**Option A: Base library only (Design system agnostic)**
+```kotlin
+dependencies {
+    implementation("com.github.tonyakitori:TourCompose:<version>")
+}
+```
+
+**Option B: Material3 integration**
+
+```kotlin
+dependencies {
+    implementation("com.github.tonyakitori:TourCompose-Material3:<version>")
+    // This automatically includes the base TourCompose library
+}
+```
+
+**Option C: Both (for mixed usage)**
 
 ```kotlin
 dependencies {
     implementation("com.github.tonyakitori:TourCompose:<version>")
+    implementation("com.github.tonyakitori:TourCompose-Material3:<version>")
 }
 ```
 

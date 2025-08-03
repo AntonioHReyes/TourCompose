@@ -1,19 +1,8 @@
 package com.tonyakitori.apps.tourcompose.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
@@ -24,9 +13,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.layout.boundsInRoot
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.ALPHA
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_OVERFLOW_RECT_BORDER_PADDING
@@ -37,7 +23,6 @@ import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightPro
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_RECT_CORNER_RADIUS
 import com.tonyakitori.apps.tourcompose.components.GuidedTourOverlaySpotlightProperties.SPOTLIGHT_RECT_PADDING
 import com.tonyakitori.apps.tourcompose.settings.colors.SpotlightColors
-import com.tonyakitori.apps.tourcompose.settings.colors.defaultSpotlightColors
 
 object GuidedTourOverlaySpotlightProperties {
     const val ALPHA = 0.78f
@@ -57,8 +42,7 @@ object GuidedTourOverlaySpotlightProperties {
  *
  * @param modifier Modifier to be applied to the OverlaySpotlight.
  * @param isOverflow If the component is overflowing the bubble.
- * @param isInsideScaffold If the component is inside a Scaffold.
- * @param componentSelectedLayoutCoordinates Coordinates of the selected component.
+ * @param componentSelectedRect Rect of the selected component.
  * @param colors Colors of the spotlight.
  */
 @Composable
@@ -66,7 +50,7 @@ internal fun OverlaySpotlight(
     modifier: Modifier = Modifier,
     isOverflow: Boolean = false,
     componentSelectedRect: Rect,
-    colors: SpotlightColors = defaultSpotlightColors()
+    colors: SpotlightColors
 ) {
 
     val backgroundColor = colors.overlayBackgroundColor
@@ -166,50 +150,4 @@ internal fun OverlaySpotlight(
             }
         }
     )
-}
-
-@Composable
-@Preview(showSystemUi = true)
-private fun GuidedTourOverlaySpotlightPreview() {
-
-    var helloWorldLayoutCoordinates: Rect? by remember { mutableStateOf(null) }
-
-    Scaffold(
-        topBar = {
-            Text(
-                text = "Tour Overlay Spotlight",
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    ) {
-        Box(
-            modifier = Modifier.padding(it)
-        ) {
-
-            Column {
-                Text(
-                    modifier = Modifier
-                        .width(210.dp)
-                        .height(150.dp)
-                        .padding(50.dp),
-                    text = "Hello World"
-                )
-
-                Text(
-                    modifier = Modifier
-                        .width(210.dp)
-                        .height(60.dp)
-                        .padding(10.dp)
-                        .onGloballyPositioned { helloWorldLayoutCoordinates = it.boundsInRoot() },
-                    text = "Hello World2"
-                )
-            }
-
-            helloWorldLayoutCoordinates?.let {
-                OverlaySpotlight(
-                    componentSelectedRect = it,
-                )
-            }
-        }
-    }
 }

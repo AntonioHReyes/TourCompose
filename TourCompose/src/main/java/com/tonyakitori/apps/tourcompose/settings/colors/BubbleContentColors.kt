@@ -1,6 +1,5 @@
 package com.tonyakitori.apps.tourcompose.settings.colors
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
@@ -35,8 +34,8 @@ class DefaultBubbleContentColors(
 
 @Composable
 fun defaultBubbleContentColors(): DefaultBubbleContentColors = DefaultBubbleContentColors(
-    titleTextColor = MaterialTheme.colorScheme.onSurface,
-    descriptionTextColor = MaterialTheme.colorScheme.onSurface,
-    iconTintColor = MaterialTheme.colorScheme.onSurface,
-    dividerColor = MaterialTheme.colorScheme.outline
+    titleTextColor = Color.Black,
+    descriptionTextColor = Color.Gray,
+    iconTintColor = Color.Black,
+    dividerColor = Color.LightGray
 )
