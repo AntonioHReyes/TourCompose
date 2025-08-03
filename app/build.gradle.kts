@@ -67,8 +67,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("com.github.AntonioHReyes.TourCompose:tourcompose-material3:feat~tour-compose-agnostic-SNAPSHOT")
-    implementation("com.github.AntonioHReyes.TourCompose:tourcompose:feat~tour-compose-agnostic-SNAPSHOT")
-    //implementation(project(":TourCompose"))
-    //implementation(project(":TourCompose-Material3"))
+    implementation(project(":TourCompose"))
+    implementation(project(":TourCompose-Material3"))
 }
