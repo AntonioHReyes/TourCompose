@@ -80,7 +80,7 @@ afterEvaluate {
                 pom {
                     name.set("TourCompose")
                     description.set("Design system agnostic tour guide library for Android Compose applications")
-                    url.set("https://github.com/tonyakitori/TourCompose")
+                    url.set("https://github.com/AntonioHReyes/TourCompose")
 
                     licenses {
                         license {
@@ -100,7 +100,7 @@ afterEvaluate {
                     scm {
                         connection.set("scm:git:github.com/tonyakitori/TourCompose.git")
                         developerConnection.set("scm:git:ssh://github.com/tonyakitori/TourCompose.git")
-                        url.set("https://github.com/tonyakitori/TourCompose")
+                        url.set("https://github.com/AntonioHReyes/TourCompose")
                     }
                 }
             }

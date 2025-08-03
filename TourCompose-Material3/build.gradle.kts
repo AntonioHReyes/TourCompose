@@ -44,7 +44,6 @@ android {
 }
 
 dependencies {
-    // Dependencia al módulo base
     implementation(project(":TourCompose"))
 
     implementation(libs.androidx.core.ktx)
@@ -61,7 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.foundation)
 
-    // Material3 específico para este módulo
+    //Material3 only for this module
     implementation(libs.androidx.material3)
 
     testImplementation(libs.junit)
@@ -86,7 +85,7 @@ afterEvaluate {
                 pom {
                     name.set("TourCompose Material3")
                     description.set("Material3 wrapper for TourCompose library")
-                    url.set("https://github.com/tonyakitori/TourCompose")
+                    url.set("https://github.com/AntonioHReyes/TourCompose")
 
                     licenses {
                         license {
@@ -106,7 +105,7 @@ afterEvaluate {
                     scm {
                         connection.set("scm:git:github.com/tonyakitori/TourCompose.git")
                         developerConnection.set("scm:git:ssh://github.com/tonyakitori/TourCompose.git")
-                        url.set("https://github.com/tonyakitori/TourCompose")
+                        url.set("https://github.com/AntonioHReyes/TourCompose")
                     }
                 }
             }
