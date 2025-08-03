@@ -73,7 +73,7 @@ dependencyResolutionManagement {
 **Option A: Material3 Integration (Recommended)**
 ```kotlin
 dependencies {
-    implementation("com.github.AntonioHReyes.TourCompose:TourCompose-Material3:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:tourcompose-material3:<version>")
     // This automatically includes the base TourCompose library via api dependency
 }
 ```
@@ -81,7 +81,7 @@ dependencies {
 **Option B: Core library only (Design system agnostic)**
 ```kotlin
 dependencies {
-    implementation("com.github.AntonioHReyes.TourCompose:TourCompose:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:tourcompose:<version>")
     // Use this if you want to create your own design system integration
 }
 ```
@@ -89,8 +89,8 @@ dependencies {
 **Option C: Both modules (Advanced usage)**
 ```kotlin
 dependencies {
-    implementation("com.github.AntonioHReyes.TourCompose:TourCompose:<version>")
-    implementation("com.github.AntonioHReyes.TourCompose:TourCompose-Material3:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:tourcompose:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:tourcompose-material3:<version>")
     // Useful when you need both custom and Material3 designs in the same app
 }
 ```
