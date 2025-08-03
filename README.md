@@ -1,5 +1,8 @@
 # TourCompose 🎯
 
+[![](https://jitpack.io/v/AntonioHReyes/TourCompose.svg)](https://jitpack.io/#AntonioHReyes/TourCompose)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 A powerful and highly customizable tour guide library for Android Compose applications. Create
 engaging onboarding experiences with beautiful overlays, smart positioning, and flexible
 customization options.
@@ -18,10 +21,6 @@ from design system implementation:
 - Maintain consistent tour behavior across different UI frameworks
 - Keep your app bundle smaller by only including the design dependencies you need
 - Create custom design integrations without modifying core tour logic
-
-[![](https://jitpack.io/v/AntonioHReyes/TourCompose.svg)](https://jitpack.io/#AntonioHReyes/TourCompose)
-[![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
