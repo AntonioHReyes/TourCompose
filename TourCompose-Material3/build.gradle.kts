@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":TourCompose"))
+    api(project(":TourCompose"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

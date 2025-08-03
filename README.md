@@ -4,10 +4,20 @@ A powerful and highly customizable tour guide library for Android Compose applic
 engaging onboarding experiences with beautiful overlays, smart positioning, and flexible
 customization options.
 
-**Now available in two flavors:**
+## 🏗️ Architecture
 
-- 🎨 **TourCompose** - Design system agnostic base library
-- 🌈 **TourCompose-Material3** - Automatic Material3 theme integration
+TourCompose is now built with a **design-agnostic architecture** that separates core functionality
+from design system implementation:
+
+- 🎨 **TourCompose (Core)** - Design system agnostic base library with all tour functionality
+- 🌈 **TourCompose-Material3** - Material3 integration module with automatic theming
+
+**Why design-agnostic?** This architecture allows you to:
+
+- Use TourCompose with any design system (Material3, Material2, custom themes)
+- Maintain consistent tour behavior across different UI frameworks
+- Keep your app bundle smaller by only including the design dependencies you need
+- Create custom design integrations without modifying core tour logic
 
 [![](https://jitpack.io/v/AntonioHReyes/TourCompose.svg)](https://jitpack.io/#AntonioHReyes/TourCompose)
 [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
@@ -15,7 +25,8 @@ customization options.
 
 ## ✨ Features
 
-- 🎨 **Fully customizable UI** with Material 3 theming support
+- 🏗️ **Design-agnostic architecture** - Use with any design system or create custom integrations
+- 🎨 **Material3 integration** - Optional module with automatic theming support
 - 🎯 **Smart positioning** with automatic edge-to-edge detection
 - 📱 **Responsive design** that adapts to different screen sizes and orientations
 - ⚡ **Performance optimized** with minimal recompositions
@@ -24,13 +35,13 @@ customization options.
 - 🎪 **Interactive demos** with multiple customization options
 - 💫 **Smooth animations** and transitions
 - 🔄 **Tour flow management** with step navigation
-- 🎨 **Color system** with comprehensive theming options
+- 🎨 **Flexible styling** - Full control over colors, shapes, and animations
 
 ## 📱 Screenshots
 
-| Basic Tour                      | Custom Colors                                   | Custom Content                                    | Dark Mode                               |
-|---------------------------------|-------------------------------------------------|---------------------------------------------------|-----------------------------------------|
-| ![Basic](screenshots/basic.png) | ![Custom Colors](screenshots/custom_colors.png) | ![Custom Content](screenshots/custom_content.png) | ![Dark Mode](screenshots/dark_mode.png) |
+| Basic Tour                      | Custom Styling                    | Material3 Integration                   | Dark Mode                              |
+|---------------------------------|-----------------------------------|-----------------------------------------|----------------------------------------|
+| ![Basic](screenshots/basic.png) | ![Custom](screenshots/custom.png) | ![Material3](screenshots/material3.png) | ![Dark Mode](screenshots/darkmode.png) |
 
 ## 🚀 Installation
 
@@ -60,30 +71,33 @@ dependencyResolutionManagement {
 
 ### Step 2: Choose your implementation
 
-**Option A: Base library only (Design system agnostic)**
+**Option A: Material3 Integration (Recommended)**
 ```kotlin
 dependencies {
-    implementation("com.github.tonyakitori:TourCompose:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:TourCompose-Material3:<version>")
+    // This automatically includes the base TourCompose library via api dependency
 }
 ```
 
-**Option B: Material3 integration**
-
+**Option B: Core library only (Design system agnostic)**
 ```kotlin
 dependencies {
-    implementation("com.github.tonyakitori:TourCompose-Material3:<version>")
-    // This automatically includes the base TourCompose library
+    implementation("com.github.AntonioHReyes.TourCompose:TourCompose:<version>")
+    // Use this if you want to create your own design system integration
 }
 ```
 
-**Option C: Both (for mixed usage)**
-
+**Option C: Both modules (Advanced usage)**
 ```kotlin
 dependencies {
-    implementation("com.github.tonyakitori:TourCompose:<version>")
-    implementation("com.github.tonyakitori:TourCompose-Material3:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:TourCompose:<version>")
+    implementation("com.github.AntonioHReyes.TourCompose:TourCompose-Material3:<version>")
+    // Useful when you need both custom and Material3 designs in the same app
 }
 ```
+
+> **Note**: The Material3 module uses `api` dependency, so you get access to all core TourCompose
+> functionality automatically.
 
 ## 🏃‍♂️ Quick Start
 
@@ -850,6 +864,10 @@ SOFTWARE.
 
 - 📧 Email: develop@tonyakitori.com
 - 🐛 Issues: [GitHub Issues](https://github.com/AntonioHReyes/TourCompose/issues)
+
+## Buy me a coffee
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=6RV93BSM8E364)
 
 ## 🙏 Acknowledgments
 
