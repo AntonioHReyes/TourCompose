@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "TourCompose"
 include(":app")
 include(":TourCompose")
+include(":TourCompose-Material3")

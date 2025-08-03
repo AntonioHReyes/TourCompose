@@ -7,11 +7,16 @@ import com.tonyakitori.apps.tourcompose.settings.colors.SpotlightColors
 import com.tonyakitori.apps.tourcompose.settings.colors.defaultDialogBubbleColors
 import com.tonyakitori.apps.tourcompose.settings.colors.defaultSpotlightColors
 
+interface TourComposePropertiesI {
+    val spotlightColors: SpotlightColors
+    val dialogBubbleColors: DialogBubbleColors
+}
+
 @Immutable
 data class TourComposeProperties(
-    val spotlightColors: SpotlightColors,
-    val dialogBubbleColors: DialogBubbleColors
-) {
+    override val spotlightColors: SpotlightColors,
+    override val dialogBubbleColors: DialogBubbleColors
+) : TourComposePropertiesI {
     companion object {
         @Composable
         fun getDefaultInstance(): TourComposeProperties = TourComposeProperties(

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -47,7 +47,7 @@ fun DialogBubbleSkeleton(
     modifier: Modifier = Modifier,
     dialogBubblePosition: DialogBubblePosition = DialogBubblePosition.BOTTOM,
     dialogTailOffsetX: Float = DIALOG_TAIL_OFFSET_X,
-    dialogBubbleColors: DialogBubbleColors = defaultDialogBubbleColors(),
+    dialogBubbleColors: DialogBubbleColors,
     content: @Composable () -> Unit
 ) {
 
@@ -92,14 +92,15 @@ fun DialogBubbleSkeleton(
 private fun GuidedTourSkeletonTopPreview() {
     DialogBubbleSkeleton(
         modifier = Modifier.fillMaxWidth(),
-        dialogBubblePosition = DialogBubblePosition.BOTTOM
+        dialogBubblePosition = DialogBubblePosition.BOTTOM,
+        dialogBubbleColors = defaultDialogBubbleColors()
     ) {
         Box(
             modifier = Modifier.padding(
                 horizontal = 16.dp,
             )
         ) {
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing")
+            BasicText(text = "Lorem ipsum dolor sit amet, consectetur adipiscing")
         }
     }
 }
@@ -109,14 +110,15 @@ private fun GuidedTourSkeletonTopPreview() {
 private fun GuidedTourSkeletonBottomPreview() {
     DialogBubbleSkeleton(
         modifier = Modifier.fillMaxWidth(),
-        dialogBubblePosition = DialogBubblePosition.TOP
+        dialogBubblePosition = DialogBubblePosition.TOP,
+        dialogBubbleColors = defaultDialogBubbleColors()
     ) {
         Box(
             modifier = Modifier.padding(
                 horizontal = 16.dp,
             )
         ) {
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing")
+            BasicText(text = "Lorem ipsum dolor sit amet, consectetur adipiscing")
         }
     }
 }

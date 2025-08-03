@@ -42,6 +42,7 @@ import com.tonyakitori.apps.tourcompose.components.DialogBubblePosition
 import com.tonyakitori.apps.tourcompose.components.DialogBubbleSkeleton
 import com.tonyakitori.apps.tourcompose.components.OverlaySpotlight
 import com.tonyakitori.apps.tourcompose.settings.TourComposeProperties
+import com.tonyakitori.apps.tourcompose.settings.TourComposePropertiesI
 import com.tonyakitori.apps.tourcompose.settings.bubbleContent.BubbleContentSettings
 
 internal object TourComposeConstants {
@@ -56,7 +57,7 @@ internal object TourComposeConstants {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TourCompose(
-    tourComposeProperties: TourComposeProperties = TourComposeProperties.getDefaultInstance(),
+    tourComposeProperties: TourComposePropertiesI = TourComposeProperties.getDefaultInstance(),
     componentRectArea: Rect?,
     bubbleContentSettings: BubbleContentSettings?
 ) {
