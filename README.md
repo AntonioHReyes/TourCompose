@@ -7,6 +7,8 @@ A powerful and highly customizable tour guide library for Android Compose applic
 engaging onboarding experiences with beautiful overlays, smart positioning, and flexible
 customization options.
 
+[Read the related article on Medium](https://medium.com/@tonyy9728/introducing-tourcompose-the-easiest-way-to-add-interactive-tours-to-your-android-compose-app-0a45af78364f)
+
 ## 🏗️ Architecture
 
 TourCompose is now built with a **design-agnostic architecture** that separates core functionality
