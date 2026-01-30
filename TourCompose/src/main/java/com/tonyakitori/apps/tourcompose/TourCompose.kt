@@ -3,10 +3,13 @@ package com.tonyakitori.apps.tourcompose
 import android.util.Log
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -59,7 +62,7 @@ fun TourCompose(
     bubbleContentSettings: BubbleContentSettings?
 ) {
 
-    if (componentRectArea == null){
+    if (componentRectArea == null) {
         Log.e("TourCompose", "componentRectArea is null.")
         return
     }
@@ -71,8 +74,8 @@ fun TourCompose(
 
     val density = LocalDensity.current
     var contentSize by remember { mutableStateOf(Size.Zero) }
-    val screenWidth = LocalContext.current.resources.displayMetrics.widthPixels
-    val screenHeight = LocalContext.current.resources.displayMetrics.heightPixels
+    val screenWidth = LocalResources.current.displayMetrics.widthPixels
+    val screenHeight = LocalResources.current.displayMetrics.heightPixels
     val spotlightCenterY = componentRectArea.center.y
     val dialogContentDescription = stringResource(R.string.tour_compose_content_description)
 
@@ -112,14 +115,30 @@ fun TourCompose(
         tail
     }
 
+    val finalComponentRect = run {
+        val safeDrawingPaddingValues = WindowInsets.safeDrawing.asPaddingValues()
+        val topPadding = with(LocalDensity.current) { safeDrawingPaddingValues.calculateTopPadding().toPx() }
+
+        if (topPadding > 0) {
+            Rect(
+                left = componentRectArea.left,
+                top = componentRectArea.top.minus(topPadding),
+                right = componentRectArea.right,
+                bottom = componentRectArea.bottom.minus(topPadding)
+            )
+        } else {
+            componentRectArea
+        }
+    }
+
     val bubblePositionModifier = with(density) {
         if (spotlightCenterY < screenHeight / 2) {
             Modifier.offset(
-                y = (componentRectArea.bottom + BUBBLE_OFFSET_Y_BOTTOM.dp.toPx()).toDp()
+                y = (finalComponentRect.bottom + BUBBLE_OFFSET_Y_BOTTOM.dp.toPx()).toDp()
             )
         } else {
             Modifier.offset(
-                y = (componentRectArea.top - (contentSize.height + BUBBLE_OFFSET_Y_TOP.dp.toPx())).toDp()
+                y = (finalComponentRect.top - (contentSize.height + BUBBLE_OFFSET_Y_TOP.dp.toPx())).toDp()
             )
         }
     }
@@ -127,7 +146,9 @@ fun TourCompose(
     Popup(
         properties = PopupProperties(
             focusable = true,
-            clippingEnabled = false,
+            // can't be used to draw edge to edge because of bug in compose ui (since compose 1.8.0)
+            // https://issuetracker.google.com/issues/327017902
+            clippingEnabled = true,
         ),
         popupPositionProvider = object : PopupPositionProvider {
             override fun calculatePosition(
@@ -154,7 +175,7 @@ fun TourCompose(
         ) {
             OverlaySpotlight(
                 modifier = Modifier,
-                componentSelectedRect = componentRectArea,
+                componentSelectedRect = finalComponentRect,
                 isOverflow = isComponentOverflowing,
                 colors = tourComposeProperties.spotlightColors
             )
