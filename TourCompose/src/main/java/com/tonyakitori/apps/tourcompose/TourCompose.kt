@@ -59,7 +59,7 @@ fun TourCompose(
     bubbleContentSettings: BubbleContentSettings?
 ) {
 
-    if (componentRectArea == null){
+    if (componentRectArea == null) {
         Log.e("TourCompose", "componentRectArea is null.")
         return
     }

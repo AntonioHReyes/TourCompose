@@ -77,7 +77,7 @@ fun TriangleShape(
             moveTo(leftBase.x, leftBase.y)
             lineTo(arcStart.x, arcStart.y) // Línea hasta el comienzo del arco
 
-            quadraticBezierTo(
+            quadraticTo(
                 x1 = centerAxis,
                 y1 = if (direction == TriangleDirection.UP) 0f else height,
                 x2 = arcEnd.x,
