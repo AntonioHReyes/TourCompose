@@ -28,7 +28,7 @@ from design system implementation:
 
 - 🏗️ **Design-agnostic architecture** - Use with any design system or create custom integrations
 - 🎨 **Material3 integration** - Optional module with automatic theming support
-- 🎯 **Smart positioning** with automatic edge-to-edge detection
+- 🎯 **Smart positioning** with automatic screen boundary detection
 - 📱 **Responsive design** that adapts to different screen sizes and orientations
 - ⚡ **Performance optimized** with minimal recompositions
 - 🧩 **Extensible architecture** for custom bubble content
@@ -599,24 +599,6 @@ fun ConditionalTourExample() {
 ```
 
 ## 🛠️ Advanced Configuration
-
-### Edge-to-Edge Support
-
-TourCompose automatically handles edge-to-edge displays and adjusts positioning accordingly:
-
-```kotlin
-// In your MainActivity
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge() // TourCompose will automatically adapt
-
-        setContent {
-            // Your content - TourCompose handles safe areas automatically
-        }
-    }
-}
-```
 
 ### Performance Optimization
 
